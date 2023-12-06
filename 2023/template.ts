@@ -4,10 +4,10 @@
 const inputProper: string = 
 ``
 
-const inputTwoExample: string =
+const inputOneExample: string =
 ``
 
-const inputOneExample: string = 
+const inputTwoExample: string = 
 ``
 
 '========================================================'
