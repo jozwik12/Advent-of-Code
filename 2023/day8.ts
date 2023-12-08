@@ -822,7 +822,16 @@ BBB = (AAA, ZZZ)
 ZZZ = (ZZZ, ZZZ)`
 
 const inputTwoExample: string = 
-``
+`LR
+
+11A = (11B, XXX)
+11B = (XXX, 11Z)
+11Z = (11B, XXX)
+22A = (22B, XXX)
+22B = (22C, 22C)
+22C = (22Z, 22Z)
+22Z = (22B, 22B)
+XXX = (XXX, XXX)`
 
 '========================================================'
 '======================PART ONE=========================='
@@ -842,24 +851,55 @@ parsedInput[1]
     nodes[splitLine[0]] = [splitLine[1], splitLine[2]]
   })
 
-let amountOfMoves: number = 0
-let currentLocation: string = "AAA"
+let amountOfMoves1: number = 0
+let currentLocation1: string = "AAA"
 
 for (let i=0; ; i++) {
   const currentMove: number = parseInt(directions[i % directions.length])
-  const destination: string = nodes[currentLocation][currentMove]
-  amountOfMoves++
+  const destination: string = nodes[currentLocation1][currentMove]
+  amountOfMoves1++
   if (destination === "ZZZ") break
-  currentLocation = destination
+  currentLocation1 = destination
 }
 
-console.log(amountOfMoves)
+console.log(amountOfMoves1)
 
 '========================================================'
 '======================PART TWO=========================='
 '========================================================'
 
-//solution here
+let startingLocations: string[] = Object.keys(nodes).filter(elem => elem.match(/A$/))
+
+let amountOfMovesToLoop: number[] = []
+
+const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+
+const lcm = (a: number, b: number): number => (a * b) / gcd(a, b);
+
+const findSmallestCommonMultiple = (arr: number[]): number => {
+  let multiple = 1;
+
+  arr.forEach((num) => {
+    multiple = lcm(multiple, num);
+  });
+
+  return multiple;
+};
+
+startingLocations.forEach(startingLocation => {
+  let currentLocation = startingLocation
+  for (let i=0; ; i++) {
+    const currentMove: number = parseInt(directions[i % directions.length])
+    const destination: string = nodes[currentLocation][currentMove]
+    if (/Z$/.test(destination)) {
+      amountOfMovesToLoop.push(i + 1)
+      break
+    }
+    currentLocation = destination
+  }
+})
+
+console.log(findSmallestCommonMultiple(amountOfMovesToLoop))
 
 '========================================================'
 
