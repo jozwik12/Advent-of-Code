@@ -1035,5 +1035,33 @@ console.log(result1)
 '======================PART TWO=========================='
 '========================================================'
 
+const mapping: Record<string, string> = {
+  one: 'o1e',
+  two: 't2o',
+  three: 't3e',
+  four: 'f4r',
+  five: 'f5e',
+  six: 's6x',
+  seven: 's7n',
+  eight: 'e8t',
+  nine: 'n9n'
+}
+
+const result2: number = inputProper
+  .split('\n')
+  .map(line => {
+    Object.keys(mapping).forEach((word) => {
+      const regex = new RegExp(`${word}`, 'g');
+      line = line.replace(regex, mapping[word]);
+    });
+    return line;
+  })
+  .map(line => line.replace(/\D/gi, ''))
+  .reduce((acc: number, currentVal: string) => {
+    return acc + parseInt(currentVal.charAt(0) + currentVal.charAt(currentVal.length - 1))
+  }, 0)
+
+console.log(result2)
+
 //just to shut up TS about "Cannot redeclare block-scoped variable" 
 export {}
